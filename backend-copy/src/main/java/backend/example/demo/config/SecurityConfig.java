@@ -17,14 +17,16 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                .cors(Customizer.withDefaults())
+
                 .csrf()
                 .disable()
                 .authorizeHttpRequests(requests->requests
-                        .requestMatchers("/register","main-page","links","login/**","/logout").permitAll()
+                        .requestMatchers("/register","create","/","login/**","/logout").permitAll()
                         .anyRequest().authenticated())
 
                 .oauth2Login(oauth2->oauth2
-                        .loginPage("/login/google")
+
                         .defaultSuccessUrl("/loginSuccess",true)
                         .failureUrl("/loginFailure"))
                 .logout(logout->logout
