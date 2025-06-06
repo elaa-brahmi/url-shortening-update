@@ -16,39 +16,27 @@ import java.util.Collections;
 public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return
+        http
+                .csrf()
+                .disable()
+                .authorizeHttpRequests(requests->requests
+                        .requestMatchers("/register","main-page","links","login/**","/logout").permitAll()
+                        .anyRequest().authenticated())
 
-                http
-                        .csrf(AbstractHttpConfigurer::disable)
-                        .cors(Customizer.withDefaults())
-                        .authorizeHttpRequests(requests->requests
-                                .requestMatchers("/register","login/**","/logout").permitAll()
-                                        .anyRequest().authenticated())
-                        .oauth2Login(oauth2->oauth2
-                                .loginPage("/login/google")
-                                        .defaultSuccessUrl("/loginSuccess",true)
-                                .failureUrl("/loginFailure"))
-                        .logout(logout->logout
-                                .logoutUrl("/logout")
-                                .logoutSuccessUrl("/loginSuccess")
+                .oauth2Login(oauth2->oauth2
+                        .loginPage("/login/google")
+                        .defaultSuccessUrl("/loginSuccess",true)
+                        .failureUrl("/loginFailure"))
+                .logout(logout->logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login")
+                        .invalidateHttpSession(true)
+                        .clearAuthentication(true)
+                        .deleteCookies("JSESSIONID")
+                        .permitAll());
+        return http.build();
 
-              /*  http.
-                        cors(Customizer.withDefaults()) // ✅ Apply CorsConfigurationSource bean
-                        .csrf(csrf -> csrf.disable())
-                        .authorizeHttpRequests(registry->{
-                            registry.requestMatchers("/").permitAll();
-                            registry.anyRequest().authenticated();
-                        })
-                        .oauth2Login(Customizer.withDefaults())
-                        .formLogin(Customizer.withDefaults())
-                        .build();*/
-        /*http
-                .cors(Customizer.withDefaults()) // ✅ Apply CorsConfigurationSource bean
-                .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll()
-                )
-                .build();*/
+
     }
 
     // ✅ This replaces the CorsFilter
