@@ -1,0 +1,76 @@
+
+<div class="layout has-sidebar fixed-sidebar fixed-header" style="height: 100%;">
+  <aside id="sidebar" class="sidebar break-point-sm has-bg-image" [class.collapsedsidebar]="isCollapsed">
+    <a id="btn-collapse" class="sidebar-collapser" (click)="toggleSidebar()"><i class="fa-solid fa-chevron-right"></i></a>
+    <div class="sidebar-layout">
+      <div class="sidebar-header">
+        <div class="pro-sidebar-logo">
+          <div>T</div>
+          <h5>TrimURL</h5>
+        </div>
+      </div>
+      <div class="sidebar-content">
+        <nav class="menu open-current-submenu">
+          <button class="Btn" (click)="router.navigate(['/createCustom'])">
+
+            create custom
+            </button>
+          <ul>
+            <li class="menu-header"><span> GENERAL </span></li>
+
+            <li class="menu-item" routerLinkActive="active">
+              <a style="cursor: pointer;" routerLink="/main-page">
+                <span class="menu-icon">
+                 <i class="fa-solid fa-table-columns"></i>
+                </span>
+                <span class="menu-title">Dashboard</span>
+              </a>
+            </li>
+
+            <li class="menu-item"  >
+              <a routerLink="/links" style="cursor: pointer;">
+                <span class="menu-icon">
+                  <i class="fa-solid fa-paperclip"></i>
+                </span>
+                <span class="menu-title">Links</span>
+              </a>
+            </li>
+
+            <li class="menu-item">
+              <a routerLink="/customLinks" style="cursor: pointer;">
+                <span class="menu-icon">
+                 <i class="fa-solid fa-link"></i>
+                </span>
+                <span class="menu-title">Custom links</span>
+              </a>
+            </li>
+
+            <li class="menu-item sub-menu">
+              <a style="cursor: pointer;" (click)="showdarklight(); $event.preventDefault()">
+                <span class="menu-icon">
+                  <i class="fa-solid fa-circle-half-stroke"></i>
+                </span>
+                <span class="menu-title" >Theme</span>
+              </a>
+              <div class="sub-menu-list" *ngIf="isShowDarkLight">
+                <ul>
+                  <li class="menu-item">
+                    <a style="cursor: pointer;" (click)="setDarkTheme()">
+                      <span class="menu-title">Dark</span>
+                    </a>
+                  </li>
+                  <li class="menu-item">
+                    <a style="cursor: pointer;" (click)="setLightTheme()">
+                      <span class="menu-title">Light</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </aside>
+</div>
+<router-outlet></router-outlet>

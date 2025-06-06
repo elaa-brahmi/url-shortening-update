@@ -1,0 +1,15 @@
+
+<div class="row" style="  background-color: #0d0f1c;" >
+  <h1 style="font-size:20px !important;"
+  [class.collapsed]="isSidebarCollapsed" [class.notcollapsed]="!isSidebarCollapsed" >TrimURL</h1>
+<div class="col-3 col-md-2 " style="padding-right: 0;" >
+  <app-sidebar (sidebarCollapsed)="onSideBarCollapsed($event)"></app-sidebar></div>
+<div class="col-9 col-md-10" style="padding-left: 0;"><app-dashboard></app-dashboard></div>
+
+
+</div>
+<app-footer style="position: relative;
+left: 0;
+right: 0;
+z-index: 2;"></app-footer>
+<router-outlet></router-outlet>
