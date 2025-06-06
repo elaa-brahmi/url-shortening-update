@@ -14,16 +14,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserService {
     public final UserRepository userRepository;
-   /* public User registerUser(User user) {
-        return userRepository.save(user);
-    }
-    public User loginUser(User user) {
-       User existingUser = userRepository.findByEmail(user.getEmail()).orElse(null);
-        if (existingUser!= null) {
-            return user;
-        }
-        return null;
-    }*/
+
     public User LoginRegisterByGoogleOAuth2(OAuth2AuthenticationToken token) {
         OAuth2User oAuth2User = token.getPrincipal();
         String email = oAuth2User.getAttribute("email");
