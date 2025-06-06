@@ -23,12 +23,15 @@ public class AuthController {
     @PostMapping("/login/google")
     public ResponseEntity<String> loginGoogleAuth(HttpServletResponse response) throws IOException {
         response.sendRedirect("/oauth2/authorization/google");
+
         return ResponseEntity.ok("Redirecting ..");
     }
 
     @GetMapping("/loginSuccess")
     public ResponseEntity<?> loginSuccess(OAuth2AuthenticationToken token) throws IOException {
         User user=userService.LoginRegisterByGoogleOAuth2(token);
+        //add user to db
+        //store token
         return ResponseEntity.status(HttpStatus.NOT_FOUND).location(URI.create("http://localhost:4200/main-page")).build();
 
 
