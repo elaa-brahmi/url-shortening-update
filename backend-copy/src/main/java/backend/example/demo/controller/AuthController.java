@@ -1,6 +1,7 @@
 package backend.example.demo.controller;
 
 import backend.example.demo.model.User;
+import backend.example.demo.service.TokenService;
 import backend.example.demo.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -11,16 +12,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
 public class AuthController {
     private final UserService userService;
+    private final TokenService tokenService;
 
-    @PostMapping("/login/google")
+    @GetMapping("/login/google")
     public ResponseEntity<String> loginGoogleAuth(HttpServletResponse response) throws IOException {
         response.sendRedirect("/oauth2/authorization/google");
 
@@ -28,12 +35,20 @@ public class AuthController {
     }
 
     @GetMapping("/loginSuccess")
-    public ResponseEntity<?> loginSuccess(OAuth2AuthenticationToken token) throws IOException {
-        User user=userService.LoginRegisterByGoogleOAuth2(token);
-        //add user to db
-        //store token
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).location(URI.create("http://localhost:4200/main-page")).build();
+    public void userInfo(HttpServletResponse response,OAuth2AuthenticationToken token) throws IOException {
+        User user = userService.LoginRegisterByGoogleOAuth2(token);
+        String jwt =tokenService.generateToken(user);
 
+        String redirectUrl = UriComponentsBuilder
+                .fromUriString("http://localhost:4200/main-page")
+                .queryParam("token", jwt)
+                .queryParam("id", user.getId())
+                .queryParam("fullName", URLEncoder.encode(user.getFullName(), StandardCharsets.UTF_8))
+                .build()
+                .toUriString();
+
+        response.sendRedirect(redirectUrl);
 
     }
+
 }
