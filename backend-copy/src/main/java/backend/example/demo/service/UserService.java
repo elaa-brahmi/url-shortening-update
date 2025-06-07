@@ -19,6 +19,7 @@ public class UserService {
         OAuth2User oAuth2User = token.getPrincipal();
         String email = oAuth2User.getAttribute("email");
         String name = oAuth2User.getAttribute("name");
+
         log.info("user from oauth2 ",oAuth2User);
         User user = userRepository.findByEmail(email).orElse(null);
         if (user != null) {
@@ -27,6 +28,7 @@ public class UserService {
         user = new User();
         user.setEmail(email);
         user.setFullName(name);
+        user.setStatus("active");
         return userRepository.save(user);
     }
 }
