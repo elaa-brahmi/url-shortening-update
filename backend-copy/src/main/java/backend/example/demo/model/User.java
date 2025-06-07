@@ -20,6 +20,7 @@ public class User {
     @GeneratedValue
     private Integer id;
     private String fullName;
+    private String status;
     private String email;
     @OneToMany(mappedBy = "user")
     private List<UrlShortened> urls = new ArrayList<>();
