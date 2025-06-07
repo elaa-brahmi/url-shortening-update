@@ -1,7 +1,8 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { UrlShorteningApIsService } from 'src/app/generatedServices/services/url-shortening-ap-is.service';
 import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { LoginService } from 'src/app/manualService/login.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,10 +10,51 @@ import { Router } from '@angular/router';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent {
+  name:String |null= '';
+  loggedIn:boolean=false;
   @ViewChild('input') input: ElementRef | undefined;
   constructor(private Shortservice:UrlShorteningApIsService,private toastr: ToastrService
-    ,private router:Router) {
+    ,private router:Router,private route:ActivatedRoute,private loginService:LoginService) {
       // Initialize any properties or services needed for the dashboard
+  }
+
+
+
+
+  ngOnInit(){
+     this.route.queryParams.subscribe(params=>{
+      const token=params['token'];
+      const name=params['fullName'];
+      const id=params['id'];
+      console.log("token and name ",token," ",name)
+      if(token){
+        localStorage.setItem('token',token);
+        localStorage.setItem('name',name);
+        localStorage.setItem('id',id);
+
+        this.router.navigate(['/main-page']);
+
+      }
+  });
+    if(localStorage.getItem('token') && localStorage.getItem('name')){
+      this.loggedIn=true;
+       this.name = localStorage.getItem('name');
+
+      console.log("user logged in");
+    }
+    else{
+      this.loggedIn=false;
+      console.log("user logged out");
+    }
+  }
+  login(){
+    this.router.navigate(['/login']);
+
+  }
+  logout(){
+    this.loggedIn=false;
+    this.loginService.logout();
+    //delete token
   }
   shorten(): void {
     // Implement the URL shortening logic here
