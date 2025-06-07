@@ -27,7 +27,7 @@ public class SecurityConfig {
 
                 .oauth2Login(oauth2->oauth2
 
-                        .defaultSuccessUrl("loginSuccess",true)
+                        .defaultSuccessUrl("/loginSuccess",true)
                         .failureUrl("/loginFailure"))
                 .logout(logout->logout
                         .logoutUrl("/logout")
