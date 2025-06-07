@@ -5,6 +5,7 @@ import { LinksComponent } from './pages/links/links.component';
 import { CustomLinksComponent } from './pages/custom-links/custom-links.component';
 import { CreateCustomComponent } from './pages/create-custom/create-custom.component';
 import { UpdateComponent } from './pages/update/update.component';
+import { LoginComponent } from './components/login/login.component';
 
 const routes: Routes = [
   {path :'main-page', component:MainPageComponent},
@@ -12,6 +13,8 @@ const routes: Routes = [
   {path :'customLinks', component:CustomLinksComponent},
   {path:'createCustom',component:CreateCustomComponent},
   {path:'update-link/:id',component:UpdateComponent},
+  {path:'login',component:LoginComponent},
+
 ];
 
 @NgModule({

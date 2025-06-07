@@ -22,6 +22,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { CreateCustomComponent } from './pages/create-custom/create-custom.component';
 import { UpdateComponent } from './pages/update/update.component';
+import { LoginComponent } from './components/login/login.component';
 
 const appRoutes: Routes = [
   // Define your routes here, for example:
@@ -42,7 +43,8 @@ const appRoutes: Routes = [
     DashboardComponent,
     FooterComponent,
     CreateCustomComponent,
-    UpdateComponent
+    UpdateComponent,
+    LoginComponent
 
   ],
   exports: [RouterModule],
