@@ -5,4 +5,6 @@
 export interface CustomUrlRequest {
   originalUrl: string;
   shortUrl: string;
+  userId:string
+
 }

@@ -10,4 +10,6 @@ export interface UrlShortenedRequestBody {
   shortenedUrl?: string;
   type?: string;
   updatedAt?: string;
+  userId?:string
+
 }

@@ -5,7 +5,10 @@ import backend.example.demo.exception.TooLongUrl;
 import backend.example.demo.exception.UrlExist;
 import backend.example.demo.exception.TooManyAttempts;
 import backend.example.demo.model.UrlShortened;
+import backend.example.demo.model.User;
 import backend.example.demo.repository.UrlRepository;
+import backend.example.demo.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,14 +18,12 @@ import java.util.Optional;
 import java.util.Random;
 
 @Service
+@RequiredArgsConstructor
 public class UrlService {
     private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     private static final int SHORT_CODE_LENGTH = 6;
-    @Autowired
-    private UrlRepository urlRepository;
-    public UrlService(UrlRepository urlRepository){
-        this.urlRepository = urlRepository;
-    }
+    private final UrlRepository urlRepository;
+    private final UserRepository userRepository;
     public String generateRandomUrl(){
         Random random=new Random();
         String shorturl;
@@ -44,21 +45,28 @@ public class UrlService {
         return "TrimUrl/"+shorturl;
 
     }
-    public void generateCustomShortenedUrl(String shortenedUrl,String originalUrl){
+    public void generateCustomShortenedUrl(String shortenedUrl,String originalUrl,String userId){
         if(originalUrl.length()>255){
             throw new TooLongUrl("this url is too long try with a shorter one!");
         }
         if(urlRepository.findByShortenedUrl(shortenedUrl).isPresent() || urlRepository.findByOriginalUrl(originalUrl).isPresent()){
             throw new UrlExist("this url already exist, choose another");
         }
-        UrlShortened newUrl = UrlShortened.builder()
-                .shortenedUrl("TrimUrl/"+shortenedUrl)
-                .originalUrl(originalUrl)
-                .accessCount(0)
-                .createdAt(LocalDateTime.now())
-                .type("custom")
-                .build();
-        urlRepository.save(newUrl);
+        Optional<User> user=userRepository.findById(Integer.parseInt(userId));
+        if(user.isPresent()){
+            User currentUser=user.get();
+            UrlShortened newUrl = UrlShortened.builder()
+                    .shortenedUrl("TrimUrl/"+shortenedUrl)
+                    .originalUrl(originalUrl)
+                    .accessCount(0)
+                    .user(currentUser)
+                    .createdAt(LocalDateTime.now())
+                    .type("custom")
+                    .build();
+            urlRepository.save(newUrl);
+
+        }
+
 
     }
     public void createUrl(String  Originalurl) throws TooManyAttempts {

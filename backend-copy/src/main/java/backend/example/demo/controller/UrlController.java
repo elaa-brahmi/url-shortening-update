@@ -20,7 +20,8 @@ import java.util.Optional;
 @RequestMapping("/shorten")
 @Tag(
         name="URL Shortening APIs",
-        description = "APIs for shortening, managing, and resolving URLs. Includes endpoints for creating short URLs, retrieving original URLs, and analyzing URL usage statistics."
+        description = "APIs for shortening, managing, and resolving URLs. Includes endpoints for creating short URLs," +
+                " retrieving original URLs, and analyzing URL usage statistics."
 )
 @Validated
 public class UrlController {
@@ -47,12 +48,15 @@ public class UrlController {
         Optional<List<UrlShortened>> urls = urlService.getAllUrls();
         return urls.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
+    @CrossOrigin(origins = "*")
+
     @PostMapping("/customUrl")
     @Operation(summary="create a custom short url")
     public ResponseEntity<Void> createCustomUrl( @Valid @RequestBody CustomUrlRequest customUrl) throws TooManyAttempts, TooLongUrl {
         String originalUrl=customUrl.getOriginalUrl();
         String shortUrl=customUrl.getShortUrl();
-        urlService.generateCustomShortenedUrl(shortUrl,originalUrl);
+        String userId=customUrl.getUserId();
+        urlService.generateCustomShortenedUrl(shortUrl,originalUrl,userId);
         return ResponseEntity.noContent().build();
     }
     @PostMapping("/create")

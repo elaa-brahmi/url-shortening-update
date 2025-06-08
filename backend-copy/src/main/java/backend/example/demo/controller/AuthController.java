@@ -28,10 +28,9 @@ public class AuthController {
     private final TokenService tokenService;
 
     @GetMapping("/login/google")
-    public ResponseEntity<String> loginGoogleAuth(HttpServletResponse response) throws IOException {
+    public void loginGoogleAuth(HttpServletResponse response) throws IOException {
         response.sendRedirect("/oauth2/authorization/google");
 
-        return ResponseEntity.ok("Redirecting ..");
     }
 
     @GetMapping("/loginSuccess")

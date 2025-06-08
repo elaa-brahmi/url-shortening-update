@@ -4,4 +4,6 @@
 
 export interface RequestUrl {
   originalUrl: string;
+  userId?:string
+
 }

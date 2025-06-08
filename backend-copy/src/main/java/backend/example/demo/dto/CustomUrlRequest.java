@@ -18,4 +18,5 @@ public class CustomUrlRequest {
     @Pattern( regexp = "^(https?://|www\\.)[a-zA-Z0-9\\-]+(\\.[a-zA-Z]{2,})+(:\\d+)?(/.*)?$",
             message = "Invalid URL format" )
     private String originalUrl;
+    private String userId;
 }

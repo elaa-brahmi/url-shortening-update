@@ -11,16 +11,23 @@ export class CreateCustomComponent {
   @ViewChild('url') inputElement!: ElementRef;
   @ViewChild('short') shortElement!: ElementRef;
   isCollapsed:boolean = false;
+  userId:string | ' ' = ' ';
 
 
  constructor(private linkService:UrlShorteningApIsService,private toastr: ToastrService
           ,private router:Router) {}
+  ngOnInit(): void {
+     if(localStorage.getItem('token')!=null && localStorage.getItem('name')!=null && localStorage.getItem('id')!=null){
+      this.userId= localStorage.getItem('id') as string;
+    }
+  }
   shortenCustom():void{
     const url=this.inputElement.nativeElement.value;
     const shortUrl=this.shortElement.nativeElement.value;
     const customUrlRequest={
       originalUrl: url,
-      shortUrl: shortUrl
+      shortUrl: shortUrl,
+      userId: this.userId
     }
     const params={
       body:customUrlRequest

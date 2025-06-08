@@ -10,4 +10,5 @@ export interface UrlShortened {
   shortenedUrl?: string;
   type?: string;
   updatedAt?: string;
+  userId?:string
 }

@@ -19,8 +19,12 @@ export class LinksComponent {
   isVisible = true;
   WillupdateLink:boolean=false;
   sidebarCollapsed = false;
+  userId: string | null = null;
   ngOnInit(){
     this.getLinks();
+    if(localStorage.getItem('token')!=null && localStorage.getItem('name')!=null && localStorage.getItem('id')!=null){
+      this.userId= localStorage.getItem('id');
+    }
   }
     constructor(private linkService:UrlShorteningApIsService,private toastr: ToastrService
         ,private router:Router) {}
@@ -38,7 +42,7 @@ export class LinksComponent {
       this.linkService.getAllUrls$Response().subscribe(
         (response) => {
           console.log("all links ",response.body);
-          response.body.filter(link => link.type=="generated").forEach(link => {
+          response.body.filter(link => link.type=="generated" &&  link.userId==this.userId).forEach(link => {
             this.links.push(link)
         });
         console.log("all links ",this.links);
