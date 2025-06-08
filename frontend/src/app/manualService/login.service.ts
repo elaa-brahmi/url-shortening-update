@@ -8,9 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class LoginService {
 
   private basePath = 'http://localhost:8080'; // or from environment.ts
-   constructor(private http: HttpClient,private router:Router,private route:ActivatedRoute) {}
-
-
+   constructor(private http: HttpClient,private router:Router) {}
    login(): void {
      window.location.href = `${this.basePath}/login/google`;
    }

@@ -17,10 +17,6 @@ export class DashboardComponent {
     ,private router:Router,private route:ActivatedRoute,private loginService:LoginService) {
       // Initialize any properties or services needed for the dashboard
   }
-
-
-
-
   ngOnInit(){
      this.route.queryParams.subscribe(params=>{
       const token=params['token'];

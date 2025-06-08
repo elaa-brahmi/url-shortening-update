@@ -12,7 +12,7 @@ export class CreateCustomComponent {
   @ViewChild('short') shortElement!: ElementRef;
   isCollapsed:boolean = false;
   userId:string | ' ' = ' ';
- constructor(private linkService:UrlShorteningApIsService,private toastr: ToastrService
+ constructor(private linkService:UrlShorteningApIsService,private toastr:ToastrService
           ,private router:Router) {}
   ngOnInit(): void {
      if(localStorage.getItem('token')!=null && localStorage.getItem('name')!=null && localStorage.getItem('id')!=null){
